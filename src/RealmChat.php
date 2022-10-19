@@ -83,16 +83,19 @@ class RealmChat
 
     public function saveMessageFromWebhook($data)
     {
-        RealmChatMessageModel::updateOrCreate([
-            'message_id' => data_get($data, 'id_message'),
-        ], [
-            'device_id' => config('realm-chat.device_id'),
-            'phone_number' => $this->getPhoneNumber($data),
-            'body' => data_get($data, 'message') ? trim(data_get($data, 'message')) : null,
-            'media_url' => $this->getMediaUrl($data),
-            'direction' => $this->getDirection($data),
-            'type' => $this->getType($data),
-        ]);
+        $message_id = data_get($data, 'id_message');
+        if ($message_id) {
+            RealmChatMessageModel::updateOrCreate([
+                'message_id' => $message_id,
+            ], [
+                'device_id' => config('realm-chat.device_id'),
+                'phone_number' => $this->getPhoneNumber($data),
+                'body' => data_get($data, 'message') ? trim(data_get($data, 'message')) : null,
+                'media_url' => $this->getMediaUrl($data),
+                'direction' => $this->getDirection($data),
+                'type' => $this->getType($data),
+            ]);
+        }
     }
 
     private function getPhoneNumber($data)
