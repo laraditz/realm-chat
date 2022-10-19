@@ -4,6 +4,7 @@ namespace Laraditz\RealmChat;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use RaditzFarhan\RealmChat\RealmChat as RealmChatClient;
 
@@ -20,7 +21,7 @@ class RealmChatServiceProvider extends ServiceProvider
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'realm-chat');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'realm-chat');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->registerRoutes();
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -84,6 +85,23 @@ class RealmChatServiceProvider extends ServiceProvider
         return [
             RealmChatClient::class,
             RealmChatChannel::class,
+        ];
+    }
+
+    protected function registerRoutes()
+    {
+        Route::group($this->routeConfiguration(), function () {
+            Route::name('realm-chat.')->group(function () {
+                $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+            });
+        });
+    }
+
+    protected function routeConfiguration()
+    {
+        return [
+            'prefix' => config('realm-chat.route_prefix'),
+            'middleware' => config('realm-chat.middleware'),
         ];
     }
 }
