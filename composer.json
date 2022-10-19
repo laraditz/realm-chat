@@ -1,0 +1,55 @@
+{
+    "name": "laraditz/realm-chat",
+    "description": "Laravel wrapper for Realm Chat SDK",
+    "keywords": [
+        "laraditz",
+        "realm-chat"
+    ],
+    "homepage": "https://github.com/laraditz/realm-chat",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Raditz Farhan",
+            "email": "raditzfarhan@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.0",
+        "raditzfarhan/realm-chat": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laraditz\\RealmChat\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laraditz\\RealmChat\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laraditz\\RealmChat\\RealmChatServiceProvider"
+            ],
+            "aliases": {
+                "RealmChat": "Laraditz\\RealmChat\\RealmChatFacade"
+            }
+        }
+    }
+}
